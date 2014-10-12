@@ -1,7 +1,15 @@
 require "i18n/localizer/version"
+require "i18n/localizer/ext"
 
 module I18n
   module Localizer
-    # Your code goes here...
+
+    def add_localizer(klass, *keys, &block)
+      raise NotImplementedError
+    end
+
   end
 end
+
+
+I18n.send :extend, I18n::Localizer

@@ -18,21 +18,26 @@ Or install it yourself as:
 
 ## Usage
 
-    # Simple example
-    I18n::Localizer(MyClass) do |object_to_localize, options|
-      # Do localization stuff
-      return localized_string
-    end
+### Definition
 
-    # If we prefer to use some parameter
-    I18n::Localizer(Numeric, :unit) do |object, options|
-      # Do localization stuff with options[:unit]
-      return localized_string
-    end
+```ruby
+# Simple example
+  I18n.add_localizer(Cat) do |cat, options|
+  return :name_with_age.t(name: cat.name, age: cat.age.l)
+end
 
-    I18n.localizers
-    # Returns an array of localizers:
-    # [{:class => Numeric, :required_options => [:unit]}, {:class => MyClass}]
+# If we prefer to use some parameter
+I18n.add_localizer(Numeric, :unit) do |object, options|
+  # Do localization stuff with options[:unit]
+  return localized_string
+end
+
+tom = Cat.new("Tom", 4)
+tom.l              # => Tom, 4 years
+tom.localize       # => Tom, 4 years
+tom.human_name     # => Tom, 4 years
+I18n.localize(tom) # => Tom, 4 years
+```
 
 ## Contributing
 
