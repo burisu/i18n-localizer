@@ -1,6 +1,6 @@
 # I18n::Localizer
 
-I think that all objects can be localized: Date, Time, DateTime but also Numeric, Money, Measure, Enumerize::Value...
+The gem is based the idea that all objects can be localized: Date, Time, DateTime but also Numeric, Money, Measure, Enumerize::Value, Cat...
 
 ## Installation
 
@@ -21,22 +21,23 @@ Or install it yourself as:
 ### Definition
 
 ```ruby
-# Simple example
-  I18n.add_localizer(Cat) do |cat, options|
-  return :name_with_age.t(name: cat.name, age: cat.age.l)
-end
-
-# If we prefer to use some parameter
-I18n.add_localizer(Numeric, :unit) do |object, options|
-  # Do localization stuff with options[:unit]
-  return localized_string
+# Example with format parameter
+I18n.add_localizer(Cat) do |cat, options|
+  I18n.translate("cat.#{options[:format]}", name: cat.name, age: cat.age.l)
 end
 
 tom = Cat.new("Tom", 4)
-tom.l              # => Tom, 4 years
-tom.localize       # => Tom, 4 years
-tom.human_name     # => Tom, 4 years
-I18n.localize(tom) # => Tom, 4 years
+tom.l                # => "Tom"
+tom.l(format: :long) # => "Tom (4 years)"
+
+# Also work:
+tom.localize         # => "Tom"
+tom.human_name       # => "Tom"
+I18n.localize(tom)        # => "Tom"
+I18n.localize(tom, :long) # => "Tom (4 years)"
+
+tom.l(locale: :fr)                # => "Tom"
+tom.l(locale: :fr, format: :long) # => "Tom, 4 ans"
 ```
 
 ## Contributing
